@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.v15k</groupId>
+    <artifactId>reliable-event-publisher</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>Reliable Event Publisher</name>
+    <description>Librería para publicar eventos con retry, backoff exponencial y DLQ, independiente del transporte.</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <jackson.version>2.17.0</jackson.version>
+        <lettuce.version>6.3.0.RELEASE</lettuce.version>
+        <kafka.version>3.7.0</kafka.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- SERIALIZACIÓN (opcional, no usada en el dominio) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- REDIS STREAMS (opcional) -->
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>${lettuce.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- KAFKA (opcional) -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- LOGGING API (slf4j) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.12</version>
+        </dependency>
+
+        <!-- TESTING -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <plugins>
+
+            <!-- COMPILADOR JAVA -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.1</version>
+                <configuration>
+                    <release>21</release>
+                </configuration>
+            </plugin>
+
+            <!-- TESTS -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+
+            <!-- PUBLICACIÓN (si usás Nexus/Artifactory) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.2</version>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
